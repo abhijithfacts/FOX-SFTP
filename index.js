@@ -124,8 +124,7 @@ function generateInvoiceHtml(order) {
       position: absolute;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%) rotate(-45deg);
-      font-size: 100px;
+      transform: translate(-50%, -50%) rotate(0);
       opacity: 0.08;
       z-index: -1;
       color: #666;
@@ -147,11 +146,16 @@ function generateInvoiceHtml(order) {
   </style>
 </head>
 <body>
-  <div class="watermark">FOXERGO</div>
-  
+  <div class="watermark">
+  <img src="${
+    process.env.APP_URL
+  }/assets/images/logo/FOX-BLACK.png" width="800px" alt="FOXERGO" class="logo">
+  </div>
   <div class="header">
     <div>
-      <img src="/assets/images/FOX-BLACK.png" width="200px" alt="Company Logo" class="logo">
+<img src="${
+    process.env.APP_URL
+  }/assets/images/logo/FOX-BLACK.png" width="300px" alt="FOXERGO" class="logo">
     </div>
     <div>
       <div class="invoice-title">INVOICE</div>
@@ -199,8 +203,8 @@ function generateInvoiceHtml(order) {
         <tr>
           <td>${item.name}</td>
           <td>${item.quantity}</td>
-          <td class="right-align">$${item.price.toFixed(2)}</td>
-          <td class="right-align">$${(item.quantity * item.price).toFixed(
+          <td class="right-align">£${item.price.toFixed(2)}</td>
+          <td class="right-align">£${(item.quantity * item.price).toFixed(
             2
           )}</td>
         </tr>`
@@ -213,23 +217,23 @@ function generateInvoiceHtml(order) {
     <table>
       <tr>
         <td>Subtotal:</td>
-        <td class="right-align">$${order.total.toFixed(2)}</td>
+        <td class="right-align">£${order.total.toFixed(2)}</td>
       </tr>
       <tr>
         <td>Discount (10%):</td>
-        <td class="right-align">-$${(order.total * 0.1).toFixed(2)}</td>
+        <td class="right-align">-£${(order.total * 0.1).toFixed(2)}</td>
       </tr>
       <tr>
         <td>Shipping:</td>
-        <td class="right-align">$15.00</td>
+        <td class="right-align">£15.00</td>
       </tr>
       <tr>
         <td>Tax (8%):</td>
-        <td class="right-align">$${(order.total * 0.08).toFixed(2)}</td>
+        <td class="right-align">£${(order.total * 0.08).toFixed(2)}</td>
       </tr>
       <tr class="total-row">
         <td><strong>TOTAL:</strong></td>
-        <td class="right-align"><strong>$${(order.total * 0.98 + 15).toFixed(
+        <td class="right-align"><strong>£${(order.total * 0.98 + 15).toFixed(
           2
         )}</strong></td>
       </tr>
@@ -252,6 +256,10 @@ function generateInvoiceHtml(order) {
 </html>
   `;
 }
+
+app.get('/',(req,res)=>{
+  res.send("foxergo")
+})
 
 app.post("/generate-invoice", async (req, res) => {
   try {
